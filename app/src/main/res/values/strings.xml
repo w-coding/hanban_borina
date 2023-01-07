@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">هەنبانە بۆرینە</string>
+
+    <string name="application_about">
+        هەنبانە بۆرینە\n
+فەرهەنگی کوردی فارسی\n
+        نوسەر : عبدالرحمن شەرەفکەندی ( مامۆستا هەژار ) ئەم
+ئەپڵیکەیشنە لەسەر بناغەی کتێبی مامۆستا هەژار
+نوسراوە کە 56,000 وشەی کوردی و 16,000 وشەی
+فارسی تێدایە.
+
+    </string>
+    <string name="application_about2">دەربارە</string>
+    <string name="developer_about">
+        گەشەپێدەری ئەپ \n
+          واڵا کۆدینگ Walla coding\n
+         \n
+        بۆدەست کەوتنی سۆرس کۆد سەردانی چەنالەکەمان بکە
+    </string>
+    <string name="developer_about2">گەشەپێدەری ئەپ</string>
+</resources>

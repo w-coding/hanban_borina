@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/sheet"
+    android:background="@drawable/bottomshet_back"
+    >
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:background="@drawable/view_background"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <TextView
+            android:id="@+id/suratTx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rabar015"
+            android:text="دڵنیاکردنەوە"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_marginTop="40dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v"
+            app:layout_constraintVertical_bias="0.052"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/TxtQ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/rabar015"
+            android:text="ئایە دەتەوێت لەبەرنامەکە دەربچیت ؟"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/suratTx"
+            tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnYes"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_yes_bg"
+        android:elevation="15dp"
+        android:fontFamily="@font/rabar015"
+        android:text="بەڵێ"
+        android:outlineAmbientShadowColor="#4CAF50"
+        android:outlineSpotShadowColor="#4CAF50"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.736"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TxtQ"
+        app:layout_constraintVertical_bias="0.006"
+        tools:ignore="HardcodedText,TextContrastCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btnNo"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/btn_no_bg"
+        android:outlineAmbientShadowColor="#F44336"
+        android:outlineSpotShadowColor="#F44336"
+        android:elevation="10dp"
+        android:fontFamily="@font/rabar015"
+        android:text="نەخێر"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnYes"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TxtQ"
+        app:layout_constraintVertical_bias="0.006"
+        tools:ignore="HardcodedText,TouchTargetSizeCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
