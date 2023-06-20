@@ -17,7 +17,4 @@
 
 ## دابەزاندن 
 
-
-<a href="https://play.google.com/store/apps/details?id=com.dya.hanban">
-<img src="https://github.com/w-coding/hanban_borina/assets/122129717/ded67cd6-9f0d-48ef-9de6-a4cb554e4126"/>
-</a>
+[Google play](https://play.google.com/store/apps/details?id=com.dya.hanban)
