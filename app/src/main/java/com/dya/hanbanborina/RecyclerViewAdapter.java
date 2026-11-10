@@ -96,10 +96,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             offset += Character.charCount(codePoint);
             int characterType = Character.getType(codePoint);
 
-            // Treat Kurdish yeh with small v (ێ) like Persian yeh (ی).
-            if (codePoint == 0x06CE) {
-                result.appendCodePoint(0x06CC);
-                continue;
+            // Treat Sorani Kurdish letters with added marks as their
+            // unmarked counterparts. This intentionally allows some false matches.
+            switch (codePoint) {
+                case 0x0695: // ڕ -> ر (reh with small v)
+                    codePoint = 0x0631;
+                    break;
+                case 0x06B5: // ڵ -> ل (lam with small v)
+                    codePoint = 0x0644;
+                    break;
+                case 0x06CE: // ێ -> ی (yeh with small v)
+                    codePoint = 0x06CC;
+                    break;
+                case 0x06C6: // ۆ -> و (oe)
+                    codePoint = 0x0648;
+                    break;
             }
 
             if (codePoint == 0x0640
