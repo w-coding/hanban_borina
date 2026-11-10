@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> implements Filterable {
 
@@ -55,7 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(
                     Context.CLIPBOARD_SERVICE
             );
-            ClipData clipData = ClipData.newPlainText("text", itemData.getText1() +"\n"+itemData.getText2()+"\n"+"\n"+"#ئەپڵیکەیشنی_هەنبانەبۆرینە"+"\n");
+            ClipData clipData = ClipData.newPlainText("text", itemData.getText1() +"\\n"+itemData.getText2()+"\\n"+"\\n"+"#ئەپڵیکەیشنی_هەنبانەبۆرینە"+"\\n");
             clipboardManager.setPrimaryClip(clipData);
             Toast.makeText(context, "کۆپی کرا", Toast.LENGTH_SHORT).show();
 
@@ -77,6 +78,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return filter;
     }
 
+    /**
+     * Kurdish/Arabic-script text may contain tatweel (ـ), for example هـ.
+     * Tatweel is a presentation character, not part of the word, so remove
+     * it from both the stored word and the query before comparing.
+     */
+    private String normalizeSearchText(String value) {
+        return value.toLowerCase(Locale.ROOT).replace("\u0640", "");
+    }
 
     Filter filter = new Filter() {
         @Override
@@ -87,9 +96,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if (charSequence.toString().isEmpty()){
                 filterList.addAll(searchText1);
             }else {
+                String normalizedQuery = normalizeSearchText(charSequence.toString());
 
-                for (Item text : searchText1 ){
-                    if (text.getText1().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                for (Item text : searchText1 ) {
+                    if (normalizeSearchText(text.getText1()).contains(normalizedQuery)) {
                         filterList.add(text);
                     }
                 }
