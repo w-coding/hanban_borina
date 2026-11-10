@@ -92,6 +92,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             char character = normalized.charAt(i);
             int characterType = Character.getType(character);
 
+            // Treat Kurdish yeh variants as equivalent for search:
+            // Persian yeh (ی) and Kurdish yeh with small v (ێ).
+            if (character == '\u06ce') {
+                result.append('\u06cc');
+                continue;
+            }
+
             if (character == '\u0640'
                     || characterType == Character.NON_SPACING_MARK
                     || characterType == Character.COMBINING_SPACING_MARK
