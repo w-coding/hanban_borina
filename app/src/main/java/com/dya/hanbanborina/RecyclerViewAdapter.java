@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.text.Normalizer;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> implements Filterable {
 
@@ -79,12 +80,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     /**
-     * Kurdish/Arabic-script text may contain tatweel (ـ), for example هـ.
-     * Tatweel is a presentation character, not part of the word, so remove
-     * it from both the stored word and the query before comparing.
+     * Normalize Kurdish/Arabic-script text for forgiving dictionary search.
+     * Ignore tatweel and Unicode diacritic marks so users can find a word
+     * whether they type its vowel marks/diacritics or leave them out.
      */
     private String normalizeSearchText(String value) {
-        return value.toLowerCase(Locale.ROOT).replace("\u0640", "");
+        String normalized = Normalizer.normalize(value.toLowerCase(Locale.ROOT), Normalizer.Form.NFD);
+        StringBuilder result = new StringBuilder(normalized.length());
+
+        for (int i = 0; i < normalized.length(); i++) {
+            char character = normalized.charAt(i);
+            int characterType = Character.getType(character);
+
+            if (character == '\u0640'
+                    || characterType == Character.NON_SPACING_MARK
+                    || characterType == Character.COMBINING_SPACING_MARK
+                    || characterType == Character.ENCLOSING_MARK) {
+                continue;
+            }
+
+            result.append(character);
+        }
+
+        return result.toString();
     }
 
     Filter filter = new Filter() {
