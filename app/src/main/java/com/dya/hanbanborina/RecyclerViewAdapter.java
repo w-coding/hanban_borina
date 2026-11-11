@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> implements Filterable {
 
@@ -63,7 +64,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
-
     }
 
 
@@ -77,6 +77,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return filter;
     }
 
+    /**
+     * Normalize only Kurdish/Arabic heh variants for dictionary search.
+     * Other Kurdish letters and Unicode combining marks remain unchanged.
+     */
+    private String normalizeSearchText(String value) {
+        String lowerCase = value.toLowerCase(Locale.ROOT);
+        StringBuilder result = new StringBuilder(lowerCase.length());
+
+        for (int offset = 0; offset < lowerCase.length();) {
+            int codePoint = lowerCase.codePointAt(offset);
+            offset += Character.charCount(codePoint);
+
+            switch (codePoint) {
+                case 0x06BE: // ھ -> ه
+                case 0x06C1: // ہ -> ه
+                    codePoint = 0x0647;
+                    break;
+            }
+
+            result.appendCodePoint(codePoint);
+        }
+
+        return result.toString();
+    }
 
     Filter filter = new Filter() {
         @Override
@@ -87,9 +111,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if (charSequence.toString().isEmpty()){
                 filterList.addAll(searchText1);
             }else {
+                String normalizedQuery = normalizeSearchText(charSequence.toString());
 
-                for (Item text : searchText1 ){
-                    if (text.getText1().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                for (Item text : searchText1 ) {
+                    if (normalizeSearchText(text.getText1()).contains(normalizedQuery)) {
                         filterList.add(text);
                     }
                 }
