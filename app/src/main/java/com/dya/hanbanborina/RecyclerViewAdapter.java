@@ -64,7 +64,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
-
     }
 
 
@@ -73,55 +72,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return aText1.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
     /**
-     * Normalize Kurdish/Arabic-script text for forgiving dictionary search.
-     * NFKD handles compatibility forms and decomposable marks. The explicit
-     * mappings below cover Kurdish/Arabic heh variants that Unicode does not
-     * consider canonically equivalent.
+     * Normalize only Kurdish/Arabic heh variants for dictionary search.
+     * Other Kurdish letters and Unicode combining marks remain unchanged.
      */
     private String normalizeSearchText(String value) {
-        String normalized = Normalizer.normalize(
-                value.toLowerCase(Locale.ROOT), Normalizer.Form.NFKD
-        );
-        StringBuilder result = new StringBuilder(normalized.length());
+        String lowerCase = value.toLowerCase(Locale.ROOT);
+        StringBuilder result = new StringBuilder(lowerCase.length());
 
-        for (int offset = 0; offset < normalized.length();) {
-            int codePoint = normalized.codePointAt(offset);
+        for (int offset = 0; offset < lowerCase.length();) {
+            int codePoint = lowerCase.codePointAt(offset);
             offset += Character.charCount(codePoint);
-            int characterType = Character.getType(codePoint);
 
             switch (codePoint) {
-                case 0x0695: // ڕ -> ر
-                    codePoint = 0x0631;
-                    break;
-                case 0x06B5: // ڵ -> ل
-                    codePoint = 0x0644;
-                    break;
-                case 0x06CE: // ێ -> ی
-                    codePoint = 0x06CC;
-                    break;
-                case 0x06C6: // ۆ -> و
-                    codePoint = 0x0648;
-                    break;
                 case 0x06BE: // ھ -> ه
                 case 0x06C1: // ہ -> ه
                 case 0x06C2: // ۂ -> ه
                     codePoint = 0x0647;
                     break;
-            }
-
-            // Tatweel is decorative elongation, not a searchable letter.
-            // Ignore all Unicode combining-mark categories as well.
-            if (codePoint == 0x0640
-                    || characterType == Character.NON_SPACING_MARK
-                    || characterType == Character.COMBINING_SPACING_MARK
-                    || characterType == Character.ENCLOSING_MARK) {
-                continue;
             }
 
             result.appendCodePoint(codePoint);
