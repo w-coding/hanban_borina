@@ -57,7 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(
                     Context.CLIPBOARD_SERVICE
             );
-            ClipData clipData = ClipData.newPlainText("text", itemData.getText1() +"\\n"+itemData.getText2()+"\\n"+"\\n"+"#ئەپڵیکەیشنی_هەنبانەبۆرینە"+"\\n");
+            ClipData clipData = ClipData.newPlainText("text", itemData.getText1() +"\n"+itemData.getText2()+"\n"+"\n"+"#ئەپڵیکەیشنی_هەنبانەبۆرینە"+"\n");
             clipboardManager.setPrimaryClip(clipData);
             Toast.makeText(context, "کۆپی کرا", Toast.LENGTH_SHORT).show();
 
@@ -111,7 +111,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     break;
                 case 0x06BE: // ھ -> ه
                 case 0x06C1: // ہ -> ه
-                case 0x06C2: // ۂ -> ه
                     codePoint = 0x0647;
                     break;
             }
