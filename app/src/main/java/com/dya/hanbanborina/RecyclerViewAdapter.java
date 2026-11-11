@@ -80,10 +80,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     /**
-     * Normalize text for forgiving dictionary search.
-     * Compatibility decomposition exposes Unicode characters that can be
-     * represented as a base character plus marks; all Unicode mark categories
-     * and tatweel are then ignored.
+     * Normalize Kurdish/Arabic-script text for forgiving dictionary search.
+     * NFKD handles compatibility forms and decomposable marks. The explicit
+     * mappings below cover Kurdish/Arabic heh variants that Unicode does not
+     * consider canonically equivalent.
      */
     private String normalizeSearchText(String value) {
         String normalized = Normalizer.normalize(
@@ -96,23 +96,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             offset += Character.charCount(codePoint);
             int characterType = Character.getType(codePoint);
 
-            // Treat Sorani Kurdish letters with added marks as their
-            // unmarked counterparts. This intentionally allows some false matches.
             switch (codePoint) {
-                case 0x0695: // ڕ -> ر (reh with small v)
+                case 0x0695: // ڕ -> ر
                     codePoint = 0x0631;
                     break;
-                case 0x06B5: // ڵ -> ل (lam with small v)
+                case 0x06B5: // ڵ -> ل
                     codePoint = 0x0644;
                     break;
-                case 0x06CE: // ێ -> ی (yeh with small v)
+                case 0x06CE: // ێ -> ی
                     codePoint = 0x06CC;
                     break;
-                case 0x06C6: // ۆ -> و (oe)
+                case 0x06C6: // ۆ -> و
                     codePoint = 0x0648;
+                    break;
+                case 0x06BE: // ھ -> ه
+                case 0x06C1: // ہ -> ه
+                case 0x06C2: // ۂ -> ه
+                    codePoint = 0x0647;
                     break;
             }
 
+            // Tatweel is decorative elongation, not a searchable letter.
+            // Ignore all Unicode combining-mark categories as well.
             if (codePoint == 0x0640
                     || characterType == Character.NON_SPACING_MARK
                     || characterType == Character.COMBINING_SPACING_MARK
